@@ -41,6 +41,8 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  services.hardware.openrgb.enable = true;
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -63,7 +65,10 @@
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
     python3
-    spotify
+    pkgs.spicetify-cli
+    curl
+    pkgs.code-cursor
+    pkgs.vscode
   ];
 
   # This value determines the NixOS release from which the default
