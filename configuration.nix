@@ -6,70 +6,41 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [ 
+      # Hardware
       ./hardware-configuration.nix
+      
+      # System Configuration
       ./modules/system/bluetooth.nix
       ./modules/system/locale.nix
       ./modules/system/networking.nix
       ./modules/system/pipewire.nix
+      
+      # Desktop Environment
+      ./modules/desktop/plasma.nix
+      
+      # Programs & Services
       ./modules/programs/steam.nix
       ./modules/programs/docker.nix
+      ./modules/services/printing.nix
+      
+      # Package Lists
+      ./modules/packages/system.nix
+      ./modules/packages/user-packages.nix
+      
+      # Users
       ./modules/users/renskursa.nix
     ];
 
-  # Bootloader.
+  # Bootloader
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # Enable the X11 windowing system.
-  # You can disable this if you're only using the Wayland session.
-  services.xserver.enable = true;
-
-  # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
-
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "fi";
-    variant = "winkeys";
-  };
-
-  # Configure console keymap
+  # Console keymap
   console.keyMap = "fi";
 
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
-  services.hardware.openrgb.enable = true;
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
+  # Enable flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  nixpkgs.config.permittedInsecurePackages = [
-    "ventoy-1.1.07"
-  ];
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    ventoy-full
-    kdePackages.partitionmanager
-    docker-compose
-    wimlib
-    xorriso
-    syslinux
-    nodejs
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    wget
-    python3
-    pkgs.spicetify-cli
-    curl
-    pkgs.code-cursor
-    pkgs.vscode
-  ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
