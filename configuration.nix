@@ -27,6 +27,7 @@
       # Package Lists
       ./modules/packages/system.nix
       ./modules/packages/user-packages.nix
+      ./modules/packages/klassy.nix
       
       # Users
       ./modules/users/renskursa.nix

@@ -7,9 +7,11 @@
     vim
     wget
     curl
+    flatpak
     
     # Development Tools
     nodejs
+    bun
     python3
     git
     
@@ -25,12 +27,12 @@
     
     # Desktop Applications
     kdePackages.kate
-    code-cursor
     vscode
     
     # Gaming
     lutris
     protonup-qt
+    prismlauncher
     
     # Media
     spicetify-cli

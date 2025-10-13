@@ -1,0 +1,61 @@
+{ config, pkgs, ... }:
+
+let
+  klassy = pkgs.stdenv.mkDerivation rec {
+    pname = "klassy";
+    version = "6.4.breeze6.4.0";
+
+    src = pkgs.fetchFromGitHub {
+      owner = "paulmcauley";
+      repo = "klassy";
+      rev = "9add443d65e04fdf03c76cd4496abe0aaa407a66";
+      sha256 = "sha256-2VJJH2u7NJIkdZrR3bAJi0BZu+tYjd3uNnyUpsI5PgY=";
+    };
+
+    nativeBuildInputs = with pkgs; [
+      cmake
+      kdePackages.extra-cmake-modules
+      kdePackages.wrapQtAppsHook
+      pkg-config
+      gettext
+    ];
+
+    buildInputs = with pkgs.kdePackages; [
+      frameworkintegration
+      kcmutils
+      kcolorscheme
+      kconfig
+      kconfigwidgets
+      kcoreaddons
+      kguiaddons
+      ki18n
+      kiconthemes
+      kirigami
+      kpackage
+      kservice
+      kwindowsystem
+      kdecoration
+      plasma-workspace
+      pkgs.qt6.qtbase
+      pkgs.qt6.qtdeclarative
+      pkgs.qt6.qtsvg
+      pkgs.xorg.libX11
+    ];
+
+    cmakeFlags = [
+      "-DCMAKE_INSTALL_PREFIX=${placeholder "out"}"
+      "-DBUILD_QT5=OFF"
+      "-DBUILD_QT6=ON"
+    ];
+
+    meta = with pkgs.lib; {
+      description = "Highly customizable binary Window Decoration and Application Style plugin for KDE Plasma";
+      homepage = "https://github.com/paulmcauley/klassy";
+      license = licenses.gpl2Plus;
+      platforms = platforms.linux;
+    };
+  };
+in
+{
+  environment.systemPackages = [ klassy ];
+}
