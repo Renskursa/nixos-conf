@@ -9,6 +9,7 @@
     [ 
       # Hardware
       ./hardware-configuration.nix
+      ./modules/hardware/nvidia.nix
       
       # System Configuration
       ./modules/system/bluetooth.nix
@@ -22,6 +23,7 @@
       # Programs & Services
       ./modules/programs/steam.nix
       ./modules/programs/docker.nix
+      ./modules/programs/arctis-chatmix.nix
       ./modules/services/printing.nix
       
       # Package Lists
@@ -51,4 +53,9 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.05"; # Did you read the comment?
 
+  nix.gc = {
+    automatic = true;          # whether to enable automatic GC
+    dates = "weekly";           # when to run the GC (format per systemd timers)
+    options = "--delete-older-than 30d";  # extra flags to pass to nix-collect-garbage
+  };
 }
