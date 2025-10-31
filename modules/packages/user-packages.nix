@@ -13,6 +13,8 @@
     
     # Remote Access
     freerdp
+
+    localsend
     
     # You can add more categories here:
     # Development

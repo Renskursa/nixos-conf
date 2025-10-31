@@ -58,6 +58,15 @@
     };
   };
 
+  # Set Nvidia PRIME offload environment variables globally
+  # This makes most applications use the Nvidia GPU by default
+  environment.sessionVariables = {
+    __NV_PRIME_RENDER_OFFLOAD = "1";
+    __NV_PRIME_RENDER_OFFLOAD_PROVIDER = "NVIDIA-G0";
+    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    __VK_LAYER_NV_optimus = "NVIDIA_only";
+  };
+
   # Optional: Create nvidia-offload command for easy GPU offloading
   # Usage: nvidia-offload <command>
   # Example: nvidia-offload glxgears

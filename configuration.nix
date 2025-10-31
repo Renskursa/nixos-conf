@@ -24,12 +24,16 @@
       ./modules/programs/steam.nix
       ./modules/programs/docker.nix
       ./modules/programs/arctis-chatmix.nix
+      ./modules/programs/ulauncher.nix
+      ./modules/programs/davinci-resolve.nix
       ./modules/services/printing.nix
+      ./modules/services/tailscale.nix
       
       # Package Lists
       ./modules/packages/system.nix
       ./modules/packages/user-packages.nix
       ./modules/packages/klassy.nix
+      ./modules/packages/odin.nix
       
       # Users
       ./modules/users/renskursa.nix
@@ -44,7 +48,7 @@
 
   # Enable flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
+  
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
@@ -52,6 +56,8 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.05"; # Did you read the comment?
+
+  services.upower.enable = true;
 
   nix.gc = {
     automatic = true;          # whether to enable automatic GC
