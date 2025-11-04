@@ -25,9 +25,9 @@
       ./modules/programs/docker.nix
       ./modules/programs/arctis-chatmix.nix
       ./modules/programs/ulauncher.nix
-      ./modules/programs/davinci-resolve.nix
       ./modules/services/printing.nix
       ./modules/services/tailscale.nix
+      ./modules/services/virtualization.nix
       
       # Package Lists
       ./modules/packages/system.nix
