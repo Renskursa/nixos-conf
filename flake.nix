@@ -14,7 +14,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, flake-utils, winboat, kwin-effects-forceblur, cursor-nixos-flake, ... }@inputs:
+outputs = { self, nixpkgs, flake-utils, winboat, kwin-effects-forceblur, cursor-nixos-flake, ... }@inputs:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
