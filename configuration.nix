@@ -26,8 +26,8 @@
       ./modules/programs/arctis-chatmix.nix
       ./modules/programs/ulauncher.nix
       ./modules/services/printing.nix
+      ./modules/services/ssh.nix
       ./modules/services/tailscale.nix
-      ./modules/services/virtualization.nix
       
       # Package Lists
       ./modules/packages/system.nix
@@ -57,6 +57,10 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.05"; # Did you read the comment?
 
+  environment.systemPackages = with pkgs; [
+    temurin-bin-25
+  ];
+
   services.upower.enable = true;
 
   nix.gc = {
@@ -64,4 +68,6 @@
     dates = "weekly";           # when to run the GC (format per systemd timers)
     options = "--delete-older-than 30d";  # extra flags to pass to nix-collect-garbage
   };
+
+
 }

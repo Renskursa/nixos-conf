@@ -7,14 +7,14 @@
     vim
     wget
     curl
+    tmux
     flatpak
     usbutils
     openvpn
     ktailctl
-    bitwarden
+    bitwarden-desktop
     qbittorrent
     acpi
-    rustdesk
     
     # Development Tools
     nodejs_20
@@ -38,13 +38,13 @@
     libopus
 
     # Disk & Boot Tools
-    ventoy-full
     kdePackages.partitionmanager
     wimlib
     xorriso
     syslinux
     rar
     fsearch
+    p7zip
 
     # Container Tools
     docker-compose
@@ -54,6 +54,7 @@
 
     # Gaming
     lutris
+    (pkgs."moonlight-qt") # Moonlight game streaming client (Qt)
     protonup-qt
     prismlauncher
     legendary-gl
@@ -67,11 +68,4 @@
     waypaper
   ];
 
-  # System-wide configuration
-  nixpkgs.config.allowUnfree = true;
-  
-  nixpkgs.config.permittedInsecurePackages = [
-    "ventoy-1.1.07"
-    "libsoup-2.74.3"
-  ];
 }

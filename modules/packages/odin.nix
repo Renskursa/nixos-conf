@@ -52,6 +52,8 @@ in {
     alsa-lib         # ALSA audio support (for SDL/raylib audio)
     
     # Development & debugging tools for Odin
+    # Moonlight game streaming client (Qt)
+    (pkgs."moonlight-qt")
     clang            # C compiler backend (Odin uses LLVM/Clang)
     lldb             # LLVM debugger
     gdb              # GNU debugger (alternative)

@@ -4,8 +4,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
-  winboat.url = "github:TibixDev/winboat";
-  cursor-nixos-flake.url = "github:TudorAndrei/cursor-nixos-flake";
+    cursor-nixos-flake.url = "github:TudorAndrei/cursor-nixos-flake";
     
     # Better Blur - using v1.3.6 compatible with Plasma 6.0.0 - 6.3.5
     kwin-effects-forceblur = {
@@ -14,10 +13,20 @@
     };
   };
 
-outputs = { self, nixpkgs, flake-utils, winboat, kwin-effects-forceblur, cursor-nixos-flake, ... }@inputs:
+outputs = { self, nixpkgs, flake-utils, kwin-effects-forceblur, cursor-nixos-flake, ... }@inputs:
     flake-utils.lib.eachDefaultSystem (system:
       let
-        pkgs = import nixpkgs { inherit system; };
+        pkgs = import nixpkgs {
+          inherit system;
+          config = {
+            allowUnfree = true;
+            permittedInsecurePackages = [
+              "ventoy-1.1.07"
+              "libsoup-2.74.3"
+              "ventoy-1.1.10"
+            ];
+          };
+        };
       in {
         # optional devShell etc.
       }) // {
@@ -28,6 +37,17 @@ outputs = { self, nixpkgs, flake-utils, winboat, kwin-effects-forceblur, cursor-
             ./configuration.nix
             ./modules/packages/flakes.nix
           ];
+          pkgs = import nixpkgs {
+            system = "x86_64-linux";
+            config = {
+              allowUnfree = true;
+              permittedInsecurePackages = [
+                "ventoy-1.1.07"
+                "libsoup-2.74.3"
+                "ventoy-1.1.10"
+              ];
+            };
+          };
         };
       };
 }
