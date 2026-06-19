@@ -30,7 +30,7 @@
 
     # Media
     spotify
-    plex-media-player
+    jellyfin-media-player
 
     # Screenshot
     flameshot
