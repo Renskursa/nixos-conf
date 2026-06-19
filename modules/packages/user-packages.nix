@@ -30,7 +30,6 @@
 
     # Media
     spotify
-    stremio
     plex-media-player
 
     # Screenshot
