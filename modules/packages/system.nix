@@ -14,7 +14,6 @@
     acpi
     htop
     btop
-    neofetch
     fastfetch
     tree
     unzip
