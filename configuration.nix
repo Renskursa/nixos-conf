@@ -1,73 +1,72 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ 
-      # Hardware
-      ./hardware-configuration.nix
-      ./modules/hardware/nvidia.nix
-      
-      # System Configuration
-      ./modules/system/bluetooth.nix
-      ./modules/system/locale.nix
-      ./modules/system/networking.nix
-      ./modules/system/pipewire.nix
-      
-      # Desktop Environment
-      ./modules/desktop/plasma.nix
-      
-      # Programs & Services
-      ./modules/programs/steam.nix
-      ./modules/programs/docker.nix
-      ./modules/programs/arctis-chatmix.nix
-      ./modules/programs/ulauncher.nix
-      ./modules/services/printing.nix
-      ./modules/services/ssh.nix
-      ./modules/services/tailscale.nix
-      
-      # Package Lists
-      ./modules/packages/system.nix
-      ./modules/packages/user-packages.nix
-      ./modules/packages/klassy.nix
-      ./modules/packages/odin.nix
-      
-      # Users
-      ./modules/users/renskursa.nix
-    ];
+  imports = [
+    ./hardware-configuration.nix
+    ./modules/hardware/nvidia.nix
+    ./modules/system/bluetooth.nix
+    ./modules/system/locale.nix
+    ./modules/system/networking.nix
+    ./modules/system/pipewire.nix
+    ./modules/desktop/plasma.nix
+    ./modules/gaming
+    ./modules/development
+    ./modules/programs/docker.nix
+    ./modules/programs/arctis-chatmix.nix
+    ./modules/programs/ulauncher.nix
+    ./modules/services/printing.nix
+    ./modules/services/ssh.nix
+    ./modules/services/tailscale.nix
+    ./modules/packages/system.nix
+    ./modules/packages/user-packages.nix
+    ./modules/packages/klassy.nix
+    ./modules/packages/odin.nix
+    ./modules/users/renskursa.nix
+  ];
 
-  # Bootloader
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
-  # Console keymap
   console.keyMap = "fi";
 
-  # Enable flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "25.05"; # Did you read the comment?
-
-  environment.systemPackages = with pkgs; [
-    temurin-bin-25
-  ];
+  system.stateVersion = "25.05";
 
   services.upower.enable = true;
 
-  nix.gc = {
-    automatic = true;          # whether to enable automatic GC
-    dates = "weekly";           # when to run the GC (format per systemd timers)
-    options = "--delete-older-than 30d";  # extra flags to pass to nix-collect-garbage
+  # Power management
+  services.tlp = {
+    enable = true;
+    settings = {
+      START_CHARGE_THRESH_BAT0 = 40;
+      STOP_CHARGE_THRESH_BAT0 = 80;
+      CPU_SCALING_GOVERNOR_ON_AC = "performance";
+      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+      PLATFORM_PROFILE_ON_AC = "performance";
+      PLATFORM_PROFILE_ON_BAT = "low-power";
+    };
+  };
+  services.power-profiles-daemon.enable = false;
+  services.thermald.enable = true;
+
+  nix = {
+    settings = {
+      experimental-features = [ "nix-command" "flakes" ];
+      auto-optimise-store = true;
+      max-jobs = "auto";
+      cores = 0;
+      trusted-users = [ "root" "@wheel" ];
+    };
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 14d";
+    };
+    optimise = {
+      automatic = true;
+      dates = [ "weekly" ];
+    };
   };
 
-
+  security.polkit.enable = true;
+  services.fwupd.enable = true;
+  hardware.enableRedistributableFirmware = true;
 }

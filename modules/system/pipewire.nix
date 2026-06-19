@@ -1,14 +1,44 @@
-
 { config, pkgs, ... }:
 
 {
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
+
   services.pipewire = {
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-  };
-}
+    jack.enable = true;
+    wireplumber.enable = true;
 
+    # Low latency config
+    extraConfig.pipewire = {
+      "99-low-latency" = {
+        "context.properties" = {
+          "default.clock.rate" = 48000;
+          "default.clock.quantum" = 256;
+          "default.clock.min-quantum" = 128;
+          "default.clock.max-quantum" = 1024;
+        };
+      };
+    };
+
+    extraConfig.pipewire-pulse = {
+      "99-low-latency" = {
+        "pulse.properties" = {
+          "pulse.default.format" = "F32";
+          "pulse.min.req" = "128/48000";
+          "pulse.default.req" = "256/48000";
+        };
+      };
+    };
+  };
+
+  environment.systemPackages = with pkgs; [
+    pavucontrol
+    easyeffects
+    helvum
+    qpwgraph
+  ];
+}

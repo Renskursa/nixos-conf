@@ -1,34 +1,53 @@
 {
-  description = "My NixOS flake system config";
+  description = "NixOS config";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
     cursor-nixos-flake.url = "github:TudorAndrei/cursor-nixos-flake";
-    
-    # Better Blur - using v1.3.6 compatible with Plasma 6.0.0 - 6.3.5
+
     kwin-effects-forceblur = {
-      url = "github:taj-ny/kwin-effects-forceblur/fea9f80f27389aa8a62befb5babf40b28fed328d";
+      url = "github:xarblu/kwin-effects-better-blur-dx";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    claude-code = {
+      url = "github:sadjow/claude-code-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    antigravity = {
+      url = "github:jacopone/antigravity-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-outputs = { self, nixpkgs, flake-utils, kwin-effects-forceblur, cursor-nixos-flake, ... }@inputs:
+  outputs = { self, nixpkgs, flake-utils, kwin-effects-forceblur, cursor-nixos-flake, claude-code, antigravity, ... }@inputs:
+    let
+      nixpkgsConfig = {
+        allowUnfree = true;
+        permittedInsecurePackages = [
+          "ventoy-1.1.07"
+          "libsoup-2.74.3"
+          "ventoy-1.1.10"
+          "openssl-1.1.1w"
+        ];
+      };
+
+      openldapOverlay = final: prev: {
+        openldap = prev.openldap.overrideAttrs (old: {
+          doCheck = false;
+        });
+      };
+    in
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs {
           inherit system;
-          config = {
-            allowUnfree = true;
-            permittedInsecurePackages = [
-              "ventoy-1.1.07"
-              "libsoup-2.74.3"
-              "ventoy-1.1.10"
-            ];
-          };
+          config = nixpkgsConfig;
+          overlays = [ openldapOverlay ];
         };
       in {
-        # optional devShell etc.
       }) // {
         nixosConfigurations."nixos" = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
@@ -39,14 +58,8 @@ outputs = { self, nixpkgs, flake-utils, kwin-effects-forceblur, cursor-nixos-fla
           ];
           pkgs = import nixpkgs {
             system = "x86_64-linux";
-            config = {
-              allowUnfree = true;
-              permittedInsecurePackages = [
-                "ventoy-1.1.07"
-                "libsoup-2.74.3"
-                "ventoy-1.1.10"
-              ];
-            };
+            config = nixpkgsConfig;
+            overlays = [ openldapOverlay ];
           };
         };
       };

@@ -1,82 +1,90 @@
 { config, lib, pkgs, ... }:
 
 {
-  # Enable OpenGL/Graphics
   hardware.graphics = {
     enable = true;
+    enable32Bit = true;
+    extraPackages = with pkgs; [
+      nvidia-vaapi-driver
+      vaapiVdpau
+      libvdpau-va-gl
+      vulkan-validation-layers
+    ];
+    extraPackages32 = with pkgs.pkgsi686Linux; [
+      nvidia-vaapi-driver
+      vaapiVdpau
+      libvdpau-va-gl
+    ];
   };
 
-  # Load nvidia driver for Xorg and Wayland
   services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware.nvidia = {
-    # Modesetting is required
     modesetting.enable = true;
-
-    # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
-    # Enable this if you have graphical corruption issues or application crashes after waking
-    # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead
-    # of just the bare essentials.
-    powerManagement.enable = false;
-
-    # Fine-grained power management. Turns off GPU when not in use.
-    # Experimental and only works on modern Nvidia GPUs (Turing or newer).
-    # RTX 3050 Mobile is Ampere architecture, so this should work.
-    powerManagement.finegrained = false;
-
-    # Use the NVidia open source kernel module (not to be confused with the
-    # independent third-party "nouveau" open source driver).
-    # Support is limited to the Turing and later architectures. Full list of 
-    # supported GPUs is at: 
-    # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus 
-    # RTX 3050 Mobile (Ampere) supports the open driver.
-    # Set to true for better support, or false if you experience issues.
+    powerManagement.enable = true;
+    powerManagement.finegrained = true;
     open = false;
-
-    # Enable the Nvidia settings menu,
-    # accessible via `nvidia-settings`.
     nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.production;
 
-    # Optionally, you may need to select the appropriate driver version for your specific GPU.
-    # For RTX 3050 Mobile (Ampere generation), use stable or production driver.
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
-
-    # PRIME configuration for hybrid graphics (laptop with Intel + Nvidia)
     prime = {
-      # Offload mode - GPU sleeps when not in use, saving battery.
-      # Use nvidia-offload script to run applications on Nvidia GPU.
       offload = {
         enable = true;
         enableOffloadCmd = true;
       };
-
-      # Bus ID values - MUST match your system!
-      # Intel iGPU: 00:02.0 -> PCI:0:2:0
-      # Nvidia dGPU: 01:00.0 -> PCI:1:0:0
       intelBusId = "PCI:0:2:0";
       nvidiaBusId = "PCI:1:0:0";
     };
+
+    forceFullCompositionPipeline = false;
   };
 
-  # Set Nvidia PRIME offload environment variables globally
-  # This makes most applications use the Nvidia GPU by default
   environment.sessionVariables = {
     __NV_PRIME_RENDER_OFFLOAD = "1";
     __NV_PRIME_RENDER_OFFLOAD_PROVIDER = "NVIDIA-G0";
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
     __VK_LAYER_NV_optimus = "NVIDIA_only";
+    VK_ICD_FILENAMES = "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json:/run/opengl-driver-32/share/vulkan/icd.d/nvidia_icd.i686.json";
+    LIBVA_DRIVER_NAME = "nvidia";
+    GBM_BACKEND = "nvidia-drm";
+    __GL_GSYNC_ALLOWED = "1";
+    __GL_VRR_ALLOWED = "1";
+    __GL_SHADER_DISK_CACHE = "1";
+    WLR_NO_HARDWARE_CURSORS = "1";
+    NIXOS_OZONE_WL = "1";
+    __GL_THREADED_OPTIMIZATION = "1";
   };
 
-  # Optional: Create nvidia-offload command for easy GPU offloading
-  # Usage: nvidia-offload <command>
-  # Example: nvidia-offload glxgears
   environment.systemPackages = with pkgs; [
-    (pkgs.writeShellScriptBin "nvidia-offload" ''
+    (writeShellScriptBin "nvidia-offload" ''
       export __NV_PRIME_RENDER_OFFLOAD=1
       export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
       export __GLX_VENDOR_LIBRARY_NAME=nvidia
       export __VK_LAYER_NV_optimus=NVIDIA_only
       exec "$@"
     '')
+
+    (writeShellScriptBin "nvidia-performance" ''
+      nvidia-settings -a "[gpu:0]/GpuPowerMizerMode=1"
+    '')
+
+    (writeShellScriptBin "nvidia-info" ''
+      nvidia-smi
+      echo ""
+      vulkaninfo --summary 2>/dev/null | head -20
+    '')
+
+    nvtopPackages.full
+    vulkan-tools
+    glxinfo
+    clinfo
   ];
+
+  boot.kernelParams = [
+    "nvidia-drm.modeset=1"
+    "nvidia-drm.fbdev=1"
+  ];
+
+  boot.extraModulePackages = [ config.boot.kernelPackages.nvidia_x11 ];
+  boot.blacklistedKernelModules = [ "nouveau" ];
 }

@@ -1,13 +1,10 @@
 { config, pkgs, ... }:
 
 {
-  # System-wide packages available to all users
   environment.systemPackages = with pkgs; [
-    # System Utilities
-    vim
+    # Utils
     wget
     curl
-    tmux
     flatpak
     usbutils
     openvpn
@@ -15,29 +12,19 @@
     bitwarden-desktop
     qbittorrent
     acpi
-    
-    # Development Tools
-    nodejs_20
-    bun
-    python3
-    git
-    ghostty
-    
-    # Build Tools
-    bison
-    flex
-    fontforge
-    makeWrapper
-    pkg-config
-    gnumake
-    gcc
-    libiconv
-    autoconf
-    automake
-    libtool
-    libopus
+    htop
+    btop
+    neofetch
+    fastfetch
+    tree
+    unzip
+    zip
+    file
+    pciutils
+    lsof
+    ncdu
 
-    # Disk & Boot Tools
+    # Disk tools
     kdePackages.partitionmanager
     wimlib
     xorriso
@@ -45,20 +32,8 @@
     rar
     fsearch
     p7zip
-
-    # Container Tools
-    docker-compose
-    
-    # Desktop Applications
-    vscode
-
-    # Gaming
-    lutris
-    (pkgs."moonlight-qt") # Moonlight game streaming client (Qt)
-    protonup-qt
-    prismlauncher
-    legendary-gl
-    rare
+    gparted
+    ventoy
 
     # Media
     spicetify-cli
@@ -66,6 +41,44 @@
     mpv
     mpvpaper
     waypaper
+    vlc
+    yt-dlp
+    imagemagick
+    gimp
+    inkscape
+
+    # Fonts
+    fontforge
+    nerd-fonts.fira-code
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.hack
+    inter
+    liberation_ttf
+    noto-fonts
+    noto-fonts-cjk-sans
+    noto-fonts-emoji
+
+    # KDE apps
+    kdePackages.kate
+    kdePackages.kcalc
+    kdePackages.ark
+    kdePackages.dolphin
+    kdePackages.gwenview
+    kdePackages.okular
+    kdePackages.spectacle
+    kdePackages.konsole
+    kdePackages.filelight
   ];
 
+  services.flatpak.enable = true;
+
+  fonts.fontconfig = {
+    enable = true;
+    defaultFonts = {
+      monospace = [ "JetBrainsMono Nerd Font" "Fira Code" ];
+      sansSerif = [ "Inter" "Noto Sans" ];
+      serif = [ "Noto Serif" ];
+      emoji = [ "Noto Color Emoji" ];
+    };
+  };
 }

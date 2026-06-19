@@ -1,25 +1,44 @@
 { config, pkgs, ... }:
 
 {
-  # User-specific packages
-  # These are separated by category for easier management
-  
   users.users.renskursa.packages = with pkgs; [
     # Communication
     discord-ptb
-    
+    slack
+    telegram-desktop
+    signal-desktop
+    element-desktop
+
     # Browsers
     google-chrome
-    
-    # Remote Access
-    freerdp
+    firefox
+    brave
 
+    # Remote/sharing
+    freerdp
     localsend
-    
-    # You can add more categories here:
-    # Development
-    # Media & Graphics
+    remmina
+    filezilla
+    syncthing
+
     # Productivity
-    # etc.
+    obsidian
+    notion-app-enhanced
+    libreoffice
+    thunderbird
+    todoist-electron
+
+    # Media
+    spotify
+    stremio
+    plex-media-player
+
+    # Screenshot
+    flameshot
+    peek
+
+    # System
+    baobab
+    gnome-system-monitor
   ];
 }
