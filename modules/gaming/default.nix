@@ -8,7 +8,6 @@
     dedicatedServer.openFirewall = true;
     localNetworkGameTransfers.openFirewall = true;
     extraCompatPackages = with pkgs; [ proton-ge-bin ];
-    platformOptimizations.enable = true;
     gamescopeSession.enable = true;
   };
 
