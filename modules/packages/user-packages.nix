@@ -12,7 +12,9 @@
     # Browsers
     google-chrome
     firefox
-    brave
+    (ungoogled-chromium.override {
+      commandLineArgs = "--enable-blink-features=MiddleClickAutoscroll";
+    })
 
     # Remote/sharing
     freerdp

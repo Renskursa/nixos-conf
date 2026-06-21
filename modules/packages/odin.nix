@@ -15,10 +15,10 @@ let
     libGL
     vulkan-loader
     wayland
-    xorg.libX11
-    xorg.libXcursor
-    xorg.libXrandr
-    xorg.libXi
+    libx11
+    libxcursor
+    libxrandr
+    libxi
     portmidi
     lua
     zlib
@@ -41,21 +41,14 @@ in {
   environment.systemPackages = with pkgs; [
     # Wrapped Odin compiler with library paths configured
     odinWrapped
-    
+
     # All libraries are included via odinLibs in the wrapper
     # But we also add them to system packages for other tools to use
   ] ++ odinLibs ++ [
     # Additional development tools
-    vulkan-headers   # Vulkan development headers
+    vulkan-headers
     wayland-protocols
-    xorg.libXinerama # X11 multi-monitor support
-    alsa-lib         # ALSA audio support (for SDL/raylib audio)
-    
-    # Development & debugging tools for Odin
-    # Moonlight game streaming client (Qt)
-    (pkgs."moonlight-qt")
-    clang            # C compiler backend (Odin uses LLVM/Clang)
-    lldb             # LLVM debugger
-    gdb              # GNU debugger (alternative)
+    libxinerama
+    alsa-lib
   ];
 }

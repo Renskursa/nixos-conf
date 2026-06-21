@@ -39,7 +39,7 @@ let
       pkgs.qt6.qtbase
       pkgs.qt6.qtdeclarative
       pkgs.qt6.qtsvg
-      pkgs.xorg.libX11
+      pkgs.libx11
     ];
 
     cmakeFlags = [

@@ -4,11 +4,13 @@
   imports = [
     ./hardware-configuration.nix
     ./modules/hardware/nvidia.nix
+    ./modules/hardware/asus.nix
     ./modules/system/bluetooth.nix
     ./modules/system/locale.nix
     ./modules/system/networking.nix
     ./modules/system/pipewire.nix
     ./modules/desktop/plasma.nix
+    ./modules/desktop/stylix.nix
     ./modules/gaming
     ./modules/development
     ./modules/programs/docker.nix
@@ -50,13 +52,13 @@
   nix = {
     settings = {
       experimental-features = [ "nix-command" "flakes" ];
-      auto-optimise-store = true;
       max-jobs = "auto";
       cores = 0;
       trusted-users = [ "root" "@wheel" ];
     };
     gc = {
       automatic = true;
+      persistent = true;
       dates = "weekly";
       options = "--delete-older-than 14d";
     };

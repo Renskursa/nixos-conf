@@ -17,7 +17,4 @@
   };
 
   services.blueman.enable = true;
-  
-  # Make sure user can access input devices
-  users.users.renskursa.extraGroups = [ "input" ];
 }

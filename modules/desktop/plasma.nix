@@ -1,13 +1,16 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   services.xserver.enable = true;
 
   services.displayManager.sddm = {
     enable = true;
-    wayland.enable = true;
-    theme = "breeze";
+    wayland.enable = lib.mkForce true;
   };
+
+  # Note: this Stylix version has no `sddm` target, so the SDDM login screen
+  # is not themed by Stylix. The Plasma desktop and lock screen are still
+  # themed via the `kde` target. See modules/desktop/stylix.nix.
 
   services.desktopManager.plasma6.enable = true;
 

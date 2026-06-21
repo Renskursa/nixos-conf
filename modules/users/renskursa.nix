@@ -29,6 +29,9 @@
       plugins = [ "git" "docker" "kubectl" "rust" "golang" "python" ];
       theme = "agnoster";
     };
+    interactiveShellInit = ''
+      eval "$(zoxide init zsh)"
+    '';
   };
 
   services.displayManager.autoLogin.enable = true;

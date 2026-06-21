@@ -43,7 +43,7 @@
     # Launchers
     lutris
     heroic
-    bottles
+    (bottles.override { removeWarningPopup = true; })
     legendary-gl
     rare
     prismlauncher
@@ -69,9 +69,7 @@
     # Emulators
     retroarch
     dolphin-emu
-    rpcs3
     pcsx2
-    duckstation
 
     # Recording
     obs-studio
@@ -79,7 +77,6 @@
 
     # Misc
     vesktop
-    gameconqueror
     libnotify
     lm_sensors
     corectrl
@@ -128,5 +125,5 @@
   '';
 
   security.unprivilegedUsernsClone = true;
-  hardware.graphics.enable32Bit = true;
+  # hardware.graphics.enable32Bit is set in modules/hardware/nvidia.nix
 }

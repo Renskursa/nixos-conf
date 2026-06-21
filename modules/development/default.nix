@@ -11,13 +11,9 @@
 
     # Terminal
     ghostty
-    kitty
     tmux
-    zellij
-    starship
     zoxide
     fzf
-    bat
     eza
     ripgrep
     fd
@@ -39,14 +35,14 @@
     pnpm
     yarn
     typescript
-    nodePackages.typescript-language-server
+    typescript-language-server
     biome
 
     # Python
-    python312
-    python312Packages.pip
-    python312Packages.virtualenv
-    python312Packages.ipython
+    python313
+    python313Packages.pip
+    python313Packages.virtualenv
+    python313Packages.ipython
     uv
     ruff
     pyright
@@ -91,6 +87,30 @@
     meson
     openssl
     sqlite
+
+    # Common build deps
+    zlib
+    libffi
+    readline
+    ncurses
+    libxml2
+    libyaml
+    bzip2
+    xz
+    glib
+    pcre2
+    icu
+    libiconv
+    flex
+    bison
+    gettext
+    m4
+    perl
+    patch
+    binutils
+    elfutils
+    strace
+    ltrace
 
     # Containers
     docker-compose

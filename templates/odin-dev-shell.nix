@@ -26,11 +26,11 @@ pkgs.mkShell {
     # Display protocols
     wayland          # Wayland support
     wayland-protocols
-    xorg.libX11      # vendor:x11
-    xorg.libXcursor
-    xorg.libXrandr
-    xorg.libXi
-    xorg.libXinerama
+    libx11            # vendor:x11
+    libxcursor
+    libxrandr
+    libxi
+    libxinerama
     
     # Audio
     portmidi         # vendor:portmidi - MIDI library
@@ -75,10 +75,10 @@ pkgs.mkShell {
       pkgs.libGL
       pkgs.vulkan-loader
       pkgs.wayland
-      pkgs.xorg.libX11
-      pkgs.xorg.libXcursor
-      pkgs.xorg.libXrandr
-      pkgs.xorg.libXi
+      pkgs.libx11
+      pkgs.libxcursor
+      pkgs.libxrandr
+      pkgs.libxi
       pkgs.portmidi
       pkgs.lua
       pkgs.zlib
@@ -94,7 +94,7 @@ pkgs.mkShell {
     vulkan-loader
     wayland
     wayland-protocols
-    xorg.libX11
+    libx11
     portmidi
     lua
     zlib

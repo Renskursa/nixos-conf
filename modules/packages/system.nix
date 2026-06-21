@@ -3,6 +3,7 @@
 {
   environment.systemPackages = with pkgs; [
     # Utils
+    tgpt
     wget
     curl
     flatpak
@@ -13,7 +14,6 @@
     qbittorrent
     acpi
     htop
-    btop
     fastfetch
     tree
     unzip
@@ -55,13 +55,13 @@
     liberation_ttf
     noto-fonts
     noto-fonts-cjk-sans
-    noto-fonts-emoji
+    noto-fonts-color-emoji
 
     # KDE apps
     kdePackages.kate
     kdePackages.kcalc
     kdePackages.ark
-    kdePackages.dolphin
+    nautilus
     kdePackages.gwenview
     kdePackages.okular
     kdePackages.spectacle
@@ -79,5 +79,9 @@
       serif = [ "Noto Serif" ];
       emoji = [ "Noto Color Emoji" ];
     };
+  };
+
+  environment.shellAliases = {
+    ask = "tgpt -s";
   };
 }

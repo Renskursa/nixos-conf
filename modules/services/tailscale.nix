@@ -14,8 +14,4 @@
     allowedUDPPorts = [ config.services.tailscale.port ];
   };
 
-  # Optional: Add Tailscale to system packages for CLI access
-  environment.systemPackages = with pkgs; [
-    tailscale
-  ];
 }

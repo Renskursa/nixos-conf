@@ -33,11 +33,11 @@
           # Display protocols
           wayland
           wayland-protocols
-          xorg.libX11
-          xorg.libXcursor
-          xorg.libXrandr
-          xorg.libXi
-          xorg.libXinerama
+          libx11
+          libxcursor
+          libxrandr
+          libxi
+          libxinerama
           
           # Audio
           portmidi

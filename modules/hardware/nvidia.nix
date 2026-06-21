@@ -23,7 +23,7 @@
     modesetting.enable = true;
     powerManagement.enable = true;
     powerManagement.finegrained = true;
-    open = false;
+    open = true;
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.production;
 
@@ -39,20 +39,19 @@
     forceFullCompositionPipeline = false;
   };
 
+  # NOTE: This is a hybrid Optimus laptop (Intel iGPU drives the internal
+  # panel, NVIDIA dGPU is for PRIME offload). Do NOT set the offload vars
+  # (__NV_PRIME_RENDER_OFFLOAD, __GLX_VENDOR_LIBRARY_NAME, GBM_BACKEND,
+  # VK_ICD_FILENAMES, __VK_LAYER_NV_optimus, LIBVA_DRIVER_NAME) globally:
+  # that forces the whole desktop onto the dGPU, which is not wired to the
+  # panel — it black-screens X11 and wastes battery on Wayland. Those vars
+  # belong in the `nvidia-offload` wrapper below, applied per-app.
   environment.sessionVariables = {
-    __NV_PRIME_RENDER_OFFLOAD = "1";
-    __NV_PRIME_RENDER_OFFLOAD_PROVIDER = "NVIDIA-G0";
-    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-    __VK_LAYER_NV_optimus = "NVIDIA_only";
-    VK_ICD_FILENAMES = "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json:/run/opengl-driver-32/share/vulkan/icd.d/nvidia_icd.i686.json";
-    LIBVA_DRIVER_NAME = "nvidia";
-    GBM_BACKEND = "nvidia-drm";
     __GL_GSYNC_ALLOWED = "1";
     __GL_VRR_ALLOWED = "1";
     __GL_SHADER_DISK_CACHE = "1";
-    WLR_NO_HARDWARE_CURSORS = "1";
-    NIXOS_OZONE_WL = "1";
     __GL_THREADED_OPTIMIZATION = "1";
+    NIXOS_OZONE_WL = "1";
   };
 
   environment.systemPackages = with pkgs; [
@@ -76,7 +75,7 @@
 
     nvtopPackages.full
     vulkan-tools
-    glxinfo
+    mesa-demos
     clinfo
   ];
 
