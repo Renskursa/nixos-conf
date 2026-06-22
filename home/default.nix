@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, username, ... }:
 
 {
   imports = [
@@ -7,8 +7,8 @@
     ./ulauncher.nix
   ];
 
-  home.username = "renskursa";
-  home.homeDirectory = "/home/renskursa";
+  home.username = username;
+  home.homeDirectory = "/home/${username}";
   home.stateVersion = "25.05";
 
   programs.home-manager.enable = true;

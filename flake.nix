@@ -43,6 +43,8 @@
 
   outputs = { self, nixpkgs, stylix, home-manager, plasma-manager, kwin-effects-forceblur, cursor-nixos-flake, claude-code, antigravity, ... }@inputs:
     let
+      username = "renskursa";
+
       nixpkgsConfig = {
         allowUnfree = true;
         permittedInsecurePackages = [
@@ -60,7 +62,7 @@
     {
       nixosConfigurations."nixos" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
+        specialArgs = { inherit inputs username; };
         modules = [
           stylix.nixosModules.stylix
           home-manager.nixosModules.home-manager
@@ -73,11 +75,11 @@
             # real files, so HM re-backs-them-up on every rebuild and otherwise
             # collides with the previous backup.
             home-manager.overwriteBackup = true;
-            home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.extraSpecialArgs = { inherit inputs username; };
             home-manager.sharedModules = [
               plasma-manager.homeModules.plasma-manager
             ];
-            home-manager.users.renskursa = import ./home/renskursa;
+            home-manager.users.${username} = import ./home;
           }
           ./configuration.nix
           ./modules/packages/flakes.nix

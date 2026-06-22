@@ -1,9 +1,9 @@
-{ config, pkgs, ... }:
+{ config, pkgs, username, ... }:
 
 {
-  users.users.renskursa = {
+  users.users.${username} = {
     isNormalUser = true;
-    description = "renskursa";
+    description = username;
     extraGroups = [
       "networkmanager"
       "wheel"
@@ -35,5 +35,5 @@
   };
 
   services.displayManager.autoLogin.enable = true;
-  services.displayManager.autoLogin.user = "renskursa";
+  services.displayManager.autoLogin.user = username;
 }

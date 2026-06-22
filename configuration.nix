@@ -24,7 +24,7 @@
     ./modules/packages/user-packages.nix
     ./modules/packages/klassy.nix
     ./modules/packages/odin.nix
-    ./modules/users/renskursa.nix
+    ./modules/users
   ];
 
   boot.loader.systemd-boot.enable = true;
