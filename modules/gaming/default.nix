@@ -103,6 +103,7 @@
     "net.core.rmem_max" = 16777216;
     "net.core.wmem_max" = 16777216;
     "vm.swappiness" = 10;
+    "vm.max_map_count" = 2147483642;
     "fs.file-max" = 2097152;
   };
 
@@ -116,9 +117,9 @@
 
   # Controller udev rules
   services.udev.extraRules = ''
-    SUBSYSTEM=="usb", ATTR{idVendor}=="045e", MODE="0666"
-    SUBSYSTEM=="usb", ATTR{idVendor}=="054c", MODE="0666"
-    SUBSYSTEM=="usb", ATTR{idVendor}=="057e", MODE="0666"
+    SUBSYSTEM=="usb", ATTR{idVendor}=="045e", MODE="0660", GROUP="input"
+    SUBSYSTEM=="usb", ATTR{idVendor}=="054c", MODE="0660", GROUP="input"
+    SUBSYSTEM=="usb", ATTR{idVendor}=="057e", MODE="0660", GROUP="input"
     KERNEL=="uinput", MODE="0660", GROUP="input", OPTIONS+="static_node=uinput"
   '';
 

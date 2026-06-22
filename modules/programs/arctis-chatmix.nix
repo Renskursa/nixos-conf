@@ -1,13 +1,8 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 let
   # Fetch the repository
-  arctis-repo = pkgs.fetchFromGitHub {
-    owner = "awth13";
-    repo = "Linux-Arctis-7-Plus-ChatMix";
-    rev = "cc07ab488047d431a3301f5ae69de927299b8d42";
-    sha256 = "sha256-7Zmik8CiXJwDzkLURS3UNoEEQywIbSaaOfY0tP095Ts=";
-  };
+  arctis-repo = inputs.arctis-chatmix-src;
 
   # Create a Python environment with PyUSB
   arctis-python = pkgs.python3.withPackages (ps: with ps; [
@@ -27,33 +22,14 @@ let
     sed -i "s/Please note: This program only supports the '7+' model./Please note: This version supports the Nova 7 model./g" $out/Arctis_7_Plus_ChatMix.py
   '';
 
-  # Create the systemd service script
-  arctis-service = pkgs.writeTextFile {
-    name = "arctis7pcm.service";
-    text = ''
-      [Unit]
-      Description=Arctis Nova 7 ChatMix Service
-      After=sound.target pipewire.service
-
-      [Service]
-      Type=simple
-      ExecStart=${arctis-python}/bin/python ${arctis-script-patched}/Arctis_7_Plus_ChatMix.py
-      Restart=on-failure
-      RestartSec=5s
-
-      [Install]
-      WantedBy=default.target
-    '';
-  };
-
   # Create udev rules for both Arctis 7+ and Nova 7
   udev-rules = pkgs.writeTextFile {
     name = "99-arctis-headsets.rules";
     text = ''
       # SteelSeries Arctis 7+ USB Dongle
-      SUBSYSTEM=="usb", ATTRS{idVendor}=="1038", ATTRS{idProduct}=="220e", MODE="0666"
+      SUBSYSTEM=="usb", ATTRS{idVendor}=="1038", ATTRS{idProduct}=="220e", MODE="0660", GROUP="input"
       # SteelSeries Arctis Nova 7 USB Dongle
-      SUBSYSTEM=="usb", ATTRS{idVendor}=="1038", ATTRS{idProduct}=="22ff", MODE="0666"
+      SUBSYSTEM=="usb", ATTRS{idVendor}=="1038", ATTRS{idProduct}=="22ff", MODE="0660", GROUP="input"
     '';
     destination = "/etc/udev/rules.d/99-arctis-headsets.rules";
   };

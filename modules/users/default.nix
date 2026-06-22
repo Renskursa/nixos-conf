@@ -1,9 +1,9 @@
-{ config, pkgs, username, ... }:
+{ config, pkgs, lib, usernames, ... }:
 
 {
-  users.users.${username} = {
+  users.users = lib.genAttrs usernames (name: {
     isNormalUser = true;
-    description = username;
+    description = name;
     extraGroups = [
       "networkmanager"
       "wheel"
@@ -17,7 +17,7 @@
       "libvirtd"
     ];
     shell = pkgs.zsh;
-  };
+  });
 
   programs.zsh = {
     enable = true;
@@ -27,13 +27,13 @@
     ohMyZsh = {
       enable = true;
       plugins = [ "git" "docker" "kubectl" "rust" "golang" "python" ];
-      theme = "agnoster";
+
     };
     interactiveShellInit = ''
       eval "$(zoxide init zsh)"
     '';
   };
 
-  services.displayManager.autoLogin.enable = true;
-  services.displayManager.autoLogin.user = username;
+  services.displayManager.autoLogin.enable = builtins.length usernames == 1;
+  services.displayManager.autoLogin.user = builtins.head usernames;
 }

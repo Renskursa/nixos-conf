@@ -8,10 +8,16 @@
     settings = {
       # Security settings
       PermitRootLogin = "no";
-      PasswordAuthentication = true;  # Set to false if you only want key-based auth
+      PasswordAuthentication = false;  # Key-based auth only
     };
     
     # Open firewall ports automatically
     openFirewall = true;
+  };
+
+  services.fail2ban = {
+    enable = true;
+    maxretry = 5;
+    bantime = "1h";
   };
 }

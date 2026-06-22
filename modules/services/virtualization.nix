@@ -1,11 +1,11 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, usernames, ... }:
 
 {
   # Enable libvirt for virtualization
   virtualisation.libvirtd.enable = true;
 
   # Add user to libvirt group
-  users.groups.libvirtd.members = [ "renskursa" ];
+  users.groups.libvirtd.members = usernames;
 
   # Kernel modules for KVM and VFIO
   boot.kernelModules = [ "kvm-intel" "vfio_pci" "vfio" "vfio_iommu_type1" "vfio_virqfd" ];

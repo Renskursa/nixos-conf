@@ -39,20 +39,31 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
+
+    klassy-src = {
+      url = "github:paulmcauley/klassy";
+      flake = false;
+    };
+
+    arctis-chatmix-src = {
+      url = "github:awth13/Linux-Arctis-7-Plus-ChatMix";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, stylix, home-manager, plasma-manager, kwin-effects-forceblur, cursor-nixos-flake, claude-code, antigravity, ... }@inputs:
     let
-      username = "renskursa";
+      usernames = [ "renskursa" ];
 
       nixpkgsConfig = {
         allowUnfree = true;
-        permittedInsecurePackages = [
-          "ventoy-1.1.12"
-          "electron-39.8.10"
+        allowInsecurePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [
+          "ventoy"
+          "electron"
         ];
       };
 
+      # openldap tests are flaky and time out on some systems
       openldapOverlay = final: prev: {
         openldap = prev.openldap.overrideAttrs (old: {
           doCheck = false;
@@ -62,7 +73,7 @@
     {
       nixosConfigurations."nixos" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs username; };
+        specialArgs = { inherit inputs usernames; };
         modules = [
           stylix.nixosModules.stylix
           home-manager.nixosModules.home-manager
@@ -75,11 +86,18 @@
             # real files, so HM re-backs-them-up on every rebuild and otherwise
             # collides with the previous backup.
             home-manager.overwriteBackup = true;
-            home-manager.extraSpecialArgs = { inherit inputs username; };
+            home-manager.extraSpecialArgs = { inherit inputs; };
             home-manager.sharedModules = [
               plasma-manager.homeModules.plasma-manager
             ];
-            home-manager.users.${username} = import ./home;
+            home-manager.users = builtins.listToAttrs (map (name: {
+              name = name;
+              value = {
+                imports = [ ./home ];
+                home.username = name;
+                home.homeDirectory = "/home/${name}";
+              };
+            }) usernames);
           }
           ./configuration.nix
           ./modules/packages/flakes.nix

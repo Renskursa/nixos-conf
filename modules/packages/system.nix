@@ -6,7 +6,7 @@
     tgpt
     wget
     curl
-    flatpak
+
     usbutils
     openvpn
     bitwarden-desktop
@@ -39,7 +39,7 @@
     mpvpaper
     waypaper
     yt-dlp
-    imagemagick
+
     gimp
     inkscape
 

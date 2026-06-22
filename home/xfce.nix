@@ -1,4 +1,4 @@
-{ osConfig, lib, pkgs, ... }:
+{ config, osConfig, lib, pkgs, ... }:
 
 lib.mkIf osConfig.services.xserver.desktopManager.xfce.enable {
 
@@ -161,7 +161,7 @@ lib.mkIf osConfig.services.xserver.desktopManager.xfce.enable {
     [Desktop Entry]
     Type=Application
     Name=xss-lock
-    Exec=${pkgs.xss-lock}/bin/xss-lock -- /home/renskursa/.local/bin/lock.sh
+    Exec=${pkgs.xss-lock}/bin/xss-lock -- ${config.home.homeDirectory}/.local/bin/lock.sh
     X-GNOME-Autostart-enabled=true
   '';
 
@@ -209,7 +209,7 @@ lib.mkIf osConfig.services.xserver.desktopManager.xfce.enable {
 
     # Session — use our lock script
     xfce4-session = {
-      "general/LockCommand" = "/home/renskursa/.local/bin/lock.sh";
+      "general/LockCommand" = "${config.home.homeDirectory}/.local/bin/lock.sh";
     };
   };
 

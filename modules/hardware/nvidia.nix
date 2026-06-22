@@ -51,7 +51,7 @@
     __GL_VRR_ALLOWED = "1";
     __GL_SHADER_DISK_CACHE = "1";
     __GL_THREADED_OPTIMIZATION = "1";
-    NIXOS_OZONE_WL = "1";
+    # NIXOS_OZONE_WL = "1"; # Removed as it forces Wayland for Electron apps on XFCE/X11
   };
 
   environment.systemPackages = with pkgs; [

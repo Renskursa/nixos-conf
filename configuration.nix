@@ -28,6 +28,7 @@
   ];
 
   boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.configurationLimit = 10;
   boot.loader.efi.canTouchEfiVariables = true;
   console.keyMap = "fi";
 
@@ -53,6 +54,9 @@
   };
   services.power-profiles-daemon.enable = false;
   services.thermald.enable = true;
+  services.fstrim.enable = true;
+  services.earlyoom.enable = true;
+  networking.firewall.enable = true;
 
   nix = {
     settings = {

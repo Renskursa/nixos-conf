@@ -1,16 +1,11 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
 let
   klassy = pkgs.stdenv.mkDerivation rec {
     pname = "klassy";
-    version = "6.4.breeze6.4.0";
+    version = "latest";
 
-    src = pkgs.fetchFromGitHub {
-      owner = "paulmcauley";
-      repo = "klassy";
-      rev = "9add443d65e04fdf03c76cd4496abe0aaa407a66";
-      sha256 = "sha256-2VJJH2u7NJIkdZrR3bAJi0BZu+tYjd3uNnyUpsI5PgY=";
-    };
+    src = inputs.klassy-src;
 
     nativeBuildInputs = with pkgs; [
       cmake

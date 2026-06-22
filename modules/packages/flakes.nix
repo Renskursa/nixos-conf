@@ -7,7 +7,7 @@ in
   # Packages from flake inputs
   # This module expects 'inputs' to be passed from flake.nix
   environment.systemPackages = [
-    pkgs.winboat
+
 
     # Cursor IDE
     inputs.cursor-nixos-flake.packages.${system}.default

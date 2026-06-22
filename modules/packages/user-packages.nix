@@ -1,7 +1,8 @@
-{ config, pkgs, ... }:
+{ pkgs, lib, usernames, ... }:
 
 {
-  users.users.renskursa.packages = with pkgs; [
+  users.users = lib.genAttrs usernames (name: {
+    packages = with pkgs; [
     # Communication
     slack
     telegram-desktop
@@ -38,5 +39,6 @@
     peek
 
 
-  ];
+    ];
+  });
 }
