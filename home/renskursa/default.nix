@@ -3,6 +3,7 @@
 {
   imports = [
     ./plasma.nix
+    ./xfce.nix
     ./ulauncher.nix
   ];
 
@@ -12,18 +13,8 @@
 
   programs.home-manager.enable = true;
 
-  # Yakuake — Quake-style drop-down terminal (toggle with F12)
-  home.packages = [ pkgs.kdePackages.yakuake ];
-  xdg.configFile."autostart/org.kde.yakuake.desktop".text = ''
-    [Desktop Entry]
-    Type=Application
-    Name=Yakuake
-    Exec=yakuake
-    X-KDE-autostart-phase=2
-  '';
-
   # Stylix targets — per-app theming
-  stylix.targets.kde.enable = false;
+  stylix.targets.gtk.enable = true;
   stylix.targets.ghostty.enable = true;
   stylix.targets.bat.enable = true;
   stylix.targets.btop.enable = true;

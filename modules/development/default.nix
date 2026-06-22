@@ -5,7 +5,6 @@
     # Editors
     vscode
     neovim
-    vim
     helix
     zed-editor
 
@@ -26,7 +25,6 @@
     gh
     lazygit
     git-lfs
-    gitui
 
     # JavaScript/TypeScript
     nodejs_22
@@ -132,8 +130,6 @@
     httpie
 
     # Misc
-    direnv
-    nix-direnv
     just
     hyperfine
     tokei

@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   klassy = pkgs.stdenv.mkDerivation rec {
@@ -57,5 +57,7 @@ let
   };
 in
 {
-  environment.systemPackages = [ klassy ];
+  config = lib.mkIf config.services.desktopManager.plasma6.enable {
+    environment.systemPackages = [ klassy ];
+  };
 }

@@ -1,4 +1,4 @@
-{ ... }:
+{ osConfig, lib, pkgs, ... }:
 
 # Declarative KDE Plasma config via plasma-manager.
 # Snapshotted from the live setup with rc2nix, then curated.
@@ -8,7 +8,20 @@
 # below still persists. Re-run `nix run github:nix-community/plasma-manager`
 # to capture new tweaks.
 
-{
+lib.mkIf osConfig.services.desktopManager.plasma6.enable {
+  # Yakuake — Quake-style drop-down terminal (toggle with F12)
+  home.packages = [ pkgs.kdePackages.yakuake ];
+  xdg.configFile."autostart/org.kde.yakuake.desktop".text = ''
+    [Desktop Entry]
+    Type=Application
+    Name=Yakuake
+    Exec=yakuake
+    X-KDE-autostart-phase=2
+  '';
+
+  # Stylix targets — per-app theming
+  stylix.targets.kde.enable = false;
+
   programs.plasma = {
     enable = true;
 

@@ -63,7 +63,6 @@ in
   # Install Python with PyUSB
   environment.systemPackages = with pkgs; [
     arctis-python
-    pipewire
     pulseaudio # for pactl
   ];
 

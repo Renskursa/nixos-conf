@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
 let
   system = pkgs.stdenv.hostPlatform.system;
@@ -9,9 +9,6 @@ in
   environment.systemPackages = [
     pkgs.winboat
 
-    # KDE Effects
-    inputs.kwin-effects-forceblur.packages.${system}.default
-
     # Cursor IDE
     inputs.cursor-nixos-flake.packages.${system}.default
 
@@ -21,5 +18,8 @@ in
     # Google Antigravity - Agentic IDE & CLI
     inputs.antigravity.packages.${system}.google-antigravity-cli
     inputs.antigravity.packages.${system}.google-antigravity-ide
+  ] ++ lib.optionals config.services.desktopManager.plasma6.enable [
+    # KDE Effects (only on Plasma)
+    inputs.kwin-effects-forceblur.packages.${system}.default
   ];
 }

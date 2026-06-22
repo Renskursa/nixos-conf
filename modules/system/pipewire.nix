@@ -38,7 +38,6 @@
   environment.systemPackages = with pkgs; [
     pavucontrol
     easyeffects
-    helvum
     qpwgraph
   ];
 }

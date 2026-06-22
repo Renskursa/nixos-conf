@@ -44,8 +44,6 @@
     lutris
     heroic
     (bottles.override { removeWarningPopup = true; })
-    legendary-gl
-    rare
     prismlauncher
 
     # Streaming

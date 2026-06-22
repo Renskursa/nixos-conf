@@ -9,6 +9,7 @@
     ./modules/system/locale.nix
     ./modules/system/networking.nix
     ./modules/system/pipewire.nix
+    ./modules/desktop/xfce.nix
     ./modules/desktop/plasma.nix
     ./modules/desktop/stylix.nix
     ./modules/gaming
@@ -29,6 +30,10 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   console.keyMap = "fi";
+
+  # CHANGE THIS ACCORDING TO THE USED DE
+  services.desktopManager.plasma6.enable = false;
+  services.xserver.desktopManager.xfce.enable = true;
 
   system.stateVersion = "25.05";
 

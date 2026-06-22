@@ -9,7 +9,6 @@
     flatpak
     usbutils
     openvpn
-    ktailctl
     bitwarden-desktop
     qbittorrent
     acpi
@@ -24,7 +23,6 @@
     ncdu
 
     # Disk tools
-    kdePackages.partitionmanager
     wimlib
     xorriso
     syslinux
@@ -40,33 +38,20 @@
     mpv
     mpvpaper
     waypaper
-    vlc
     yt-dlp
     imagemagick
     gimp
     inkscape
 
-    # Fonts
+    # Fonts (base set — JetBrains Mono, Inter, Noto, Noto Emoji are in stylix.nix)
     fontforge
     nerd-fonts.fira-code
-    nerd-fonts.jetbrains-mono
     nerd-fonts.hack
-    inter
     liberation_ttf
-    noto-fonts
     noto-fonts-cjk-sans
-    noto-fonts-color-emoji
 
-    # KDE apps
-    kdePackages.kate
-    kdePackages.kcalc
-    kdePackages.ark
+    # File manager
     nautilus
-    kdePackages.gwenview
-    kdePackages.okular
-    kdePackages.spectacle
-    kdePackages.konsole
-    kdePackages.filelight
   ];
 
   services.flatpak.enable = true;

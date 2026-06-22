@@ -3,7 +3,6 @@
 {
   users.users.renskursa.packages = with pkgs; [
     # Communication
-    discord-ptb
     slack
     telegram-desktop
     signal-desktop
@@ -38,8 +37,6 @@
     flameshot
     peek
 
-    # System
-    baobab
-    gnome-system-monitor
+
   ];
 }
